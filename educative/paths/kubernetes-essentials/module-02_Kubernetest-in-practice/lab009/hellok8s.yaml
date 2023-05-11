@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hellok8s
+spec:
+  containers:
+    - image: brianstorti/hellok8s:v4
+      name: hellok8s

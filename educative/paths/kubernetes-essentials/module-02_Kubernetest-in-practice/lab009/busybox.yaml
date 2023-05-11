@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+spec:
+  containers:
+  - name: busybox-container
+    image: busybox
+    
+    # NOTE: This is a command that won’t really do anything useful, 
+    #       but it will use as much CPU as it can, so it works well for our tests.
+    command: ["dd", "if=/dev/zero", "of=/dev/null"]
+
+    # NOTE: We are saying we want 500 millicores (1/2 of a single CPU core) and 5 megabytes of memory.
+    resources:
+      requests:
+        cpu: 500m
+        memory: 5Mi

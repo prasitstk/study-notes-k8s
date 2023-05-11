@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hellok8s-svc
+spec:
+  type: NodePort
+  selector:
+    app: hellok8s
+  ports:
+  - port: 4567
+    nodePort: 30001
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellok8s
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hellok8s
+  template:
+    metadata:
+      labels:
+        app: hellok8s
+    spec:
+      containers:
+      - image: <your-docker-hub-id>/hellok8s:v4
+        name: hellok8s-container
+        # Getting all the variables from a ConfigMap
+        envFrom:
+          - configMapRef:
+              name: hellok8s-config
+            # prefix: CONFIG_
+            # NOTE: 
+            # If we are injecting the configs from multiple different ConfigMaps, 
+            # we can have conflicting variable names that would be overridden.
+            #  To fix that, we can add a `prefix` to all the variables names imported from each ConfigMap.

@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: echo-job
+spec:
+  # This will keep retrying 10 times, still using an exponential back-off delay between each retry.
+  backoffLimit: 10
+
+  # activeDeadlineSeconds: 300
+  # NOTE:
+  # - We can also set the activeDeadlineSeconds property to define for how long this Job is allowed to run. 
+  # After this number of seconds, if all the pods still haven’t finished successfully, the Job fails. 
+  # By default, a Job will not have a deadline.
+  
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: echo
+        image: busybox
+        command: ["fail"]
